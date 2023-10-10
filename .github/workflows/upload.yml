@@ -1,0 +1,22 @@
+name: Upload
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  upload-to-helios:
+    runs-on: ubuntu-latest
+    name: Upload files to Helios
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Copy files with SCP
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.HELIOS_HOST }}
+          username: ${{ secrets.HELIOS_USERNAME }}
+          key: ${{ secrets.HELIOS_SSH_KEY }}
+          port: ${{ secrets.HELIOS_PORT }}
+          source: "./"
+          target: "/home/studs/s311703/databases-lab3"
